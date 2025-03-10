@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Worker Registration</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>Register as a Worker</h2>
+    <form id="workerForm">
+      <label for="workerName">Name:</label>
+      <input type="text" id="workerName" required>
+      
+      <label for="workerPhoto">Photo URL:</label>
+      <input type="url" id="workerPhoto">
+      
+      <label for="workerBio">Bio:</label>
+      <textarea id="workerBio" required></textarea>
+      
+      <label for="workerCategory">Category:</label>
+      <select id="workerCategory" required>
+        <option value="">Select Category</option>
+        <option value="skilled">Skilled</option>
+        <option value="unskilled">Unskilled</option>
+      </select>
+      
+      <label for="workerProfession">Profession (if applicable):</label>
+      <input type="text" id="workerProfession">
+      
+      <button type="submit">Register</button>
+    </form>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Retailer Registration</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>Register as a Retailer</h2>
+    <form id="retailerForm">
+      <label for="retailerName">Name:</label>
+      <input type="text" id="retailerName" required>
+      
+      <label for="retailerType">Type:</label>
+      <select id="retailerType" required>
+        <option value="">Select Type</option>
+        <option value="business">Business Owner</option>
+        <option value="individual">Individual</option>
+      </select>
+      
+      <label for="retailerDetails">Additional Details:</label>
+      <textarea id="retailerDetails"></textarea>
+      
+      <button type="submit">Register</button>
+    </form>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
