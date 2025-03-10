@@ -1,24 +1,80 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Book a Worker</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <h2>Available Workers</h2>
-    <div id="workersList">
-      <!-- Worker profiles will be rendered here -->
-    </div>
-  </main>
-  <script src="app.js"></script>
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hire a Worker</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    >
+    <style>
+      /* Ensure the body and html take full height, remove default margins */
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      /* Make the navbar fixed at the top */
+      header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 999;
+      }
+      /* Push main content below fixed navbar */
+      main {
+        margin-top: 80px; /* Adjust if your navbar height changes */
+      }
+      /* Dark background for the card, white text for contrast */
+      .card {
+        background-color: #212529;
+        color: #fff;
+      }
+      /* Make images uniform and avoid overflow */
+      .card-img-top {
+        height: 200px;     /* Adjust to your liking */
+        width: 100%;       /* Always fill card width */
+        object-fit: cover; /* Crop to fill the defined height */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header (fixed) -->
+    <header class="p-3 text-bg-dark">
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+          <!-- Brand -->
+          <a href="index.html" class="text-white text-decoration-none fs-4">
+            Worker's Helpline
+          </a>
+          <!-- Nav links -->
+          <ul class="nav">
+            <li class="nav-item"><a href="index.html" class="nav-link text-white">Home</a></li>
+            <li class="nav-item"><a href="register-worker.html" class="nav-link text-white">Worker Registration</a></li>
+            <li class="nav-item"><a href="register-retailer.html" class="nav-link text-white">Retailer Registration</a></li>
+            <li class="nav-item"><a href="book.html" class="nav-link text-white">Book Worker</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="container">
+      <h2 class="mb-4">Available Workers</h2>
+      <!-- 
+        row-cols-1: On extra-small screens, 1 column
+        row-cols-md-2: On medium screens, 2 columns
+        row-cols-lg-4: On large screens, 4 columns
+      -->
+      <div id="workersList" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <!-- Worker cards get injected here by app.js -->
+      </div>
+    </main>
+
+    <!-- Bootstrap 5.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Your existing app.js -->
+    <script src="app.js"></script>
+  </body>
 </html>
