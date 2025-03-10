@@ -1,35 +1,46 @@
-// Worker Registration
+// Worker Registration with File Upload for Photo
 document.getElementById('workerForm')?.addEventListener('submit', function(event) {
     event.preventDefault();
     const name = document.getElementById('workerName').value;
-    const photo = document.getElementById('workerPhoto').value;
     const bio = document.getElementById('workerBio').value;
     const category = document.getElementById('workerCategory').value;
     const profession = document.getElementById('workerProfession').value;
+    const photoInput = document.getElementById('workerPhoto');
   
-    // Create worker object
-    const worker = { name, photo, bio, category, profession };
-  
-    // Retrieve existing workers or initialize an empty array
-    let workers = JSON.parse(localStorage.getItem('workers')) || [];
-    workers.push(worker);
-    localStorage.setItem('workers', JSON.stringify(workers));
-  
-    alert('Worker registration successful!');
-    this.reset();
+    if (photoInput.files && photoInput.files[0]) {
+      let file = photoInput.files[0];
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        let photo = e.target.result;
+        // Create worker object with base64 image data
+        const worker = { name, photo, bio, category, profession };
+        let workers = JSON.parse(localStorage.getItem('workers')) || [];
+        workers.push(worker);
+        localStorage.setItem('workers', JSON.stringify(workers));
+        alert('Worker registration successful!');
+        document.getElementById('workerForm').reset();
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // If no file is selected, store an empty string or use a default placeholder
+      const worker = { name, photo: '', bio, category, profession };
+      let workers = JSON.parse(localStorage.getItem('workers')) || [];
+      workers.push(worker);
+      localStorage.setItem('workers', JSON.stringify(workers));
+      alert('Worker registration successful!');
+      document.getElementById('workerForm').reset();
+    }
   });
   
-  // Retailer Registration
+  // Retailer Registration (unchanged)
   document.getElementById('retailerForm')?.addEventListener('submit', function(event) {
     event.preventDefault();
     const name = document.getElementById('retailerName').value;
     const type = document.getElementById('retailerType').value;
     const details = document.getElementById('retailerDetails').value;
   
-    // Create retailer object
     const retailer = { name, type, details };
   
-    // Retrieve existing retailers or initialize an empty array
     let retailers = JSON.parse(localStorage.getItem('retailers')) || [];
     retailers.push(retailer);
     localStorage.setItem('retailers', JSON.stringify(retailers));
@@ -63,8 +74,6 @@ document.getElementById('workerForm')?.addEventListener('submit', function(event
   }
   
   function bookWorker(index) {
-    // This function simulates booking a worker.
-    // In a real app, you might capture more details like date/time.
     alert(`Worker at index ${index} has been booked!`);
   }
   
