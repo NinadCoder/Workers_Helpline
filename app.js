@@ -48,9 +48,9 @@ document.getElementById('workerForm')?.addEventListener('submit', function(event
     };
     workers.push(newWorker);
     setWorkers(workers);
-    alert('Worker registration successful! Please log in now.');
-    // Redirect to worker login page
-    window.location.href = 'worker-login.html';
+    alert('Worker registration successful!');
+    // Redirect to index.html (login page)
+    window.location.href = 'index.html';
   }
 
   if (photoInput && photoInput.files && photoInput.files[0]) {
@@ -75,17 +75,14 @@ function workerLogin() {
   const workers = getWorkers();
   const worker = workers.find(w => w.username === username && w.password === password);
   if (!worker) {
-    alert('Invalid credentials!');
+    alert('Invalid worker credentials!');
     return;
   }
   localStorage.setItem('loggedInWorkerId', worker.id);
   alert('Worker logged in successfully!');
+  // route to worker dashboard
   window.location.href = 'worker-dashboard.html';
 }
-document.getElementById('workerLoginForm')?.addEventListener('submit', function(event) {
-  event.preventDefault();
-  workerLogin();
-});
 
 /***************************************************************************
  * Retailer Registration
@@ -113,9 +110,9 @@ document.getElementById('retailerForm')?.addEventListener('submit', function(eve
   };
   retailers.push(newRetailer);
   setRetailers(retailers);
-  alert('Retailer registration successful! Please log in now.');
-  // Redirect to retailer login page
-  window.location.href = 'retailer-login.html';
+  alert('Retailer registration successful!');
+  // Redirect to index.html (login page)
+  window.location.href = 'index.html';
 });
 
 /***************************************************************************
@@ -127,17 +124,14 @@ function retailerLogin() {
   const retailers = getRetailers();
   const retailer = retailers.find(r => r.username === username && r.password === password);
   if (!retailer) {
-    alert('Invalid credentials!');
+    alert('Invalid retailer credentials!');
     return;
   }
   localStorage.setItem('loggedInRetailerId', retailer.id);
   alert('Retailer logged in successfully!');
+  // route to retailer dashboard
   window.location.href = 'retailer-dashboard.html';
 }
-document.getElementById('retailerLoginForm')?.addEventListener('submit', function(event) {
-  event.preventDefault();
-  retailerLogin();
-});
 
 /***************************************************************************
  * Book Page: Render Workers + Booking Logic
@@ -148,11 +142,13 @@ if (document.getElementById('workersList')) {
   if (workers.length === 0) {
     workersListDiv.innerHTML = '<p>No workers registered yet.</p>';
   } else {
-    workers.forEach((worker, index) => {
+    workers.forEach((worker) => {
       const colDiv = document.createElement('div');
       colDiv.className = 'col';
       const cardDiv = document.createElement('div');
       cardDiv.className = 'card h-100 text-bg-dark';
+
+      // Worker photo
       if (worker.photo) {
         const img = document.createElement('img');
         img.src = worker.photo;
@@ -160,26 +156,38 @@ if (document.getElementById('workersList')) {
         img.alt = worker.name;
         cardDiv.appendChild(img);
       }
+
+      // Card body
       const cardBody = document.createElement('div');
       cardBody.className = 'card-body';
+
+      // Name
       const cardTitle = document.createElement('h5');
       cardTitle.className = 'card-title';
       cardTitle.textContent = worker.name;
       cardBody.appendChild(cardTitle);
+
+      // Bio
       const cardText = document.createElement('p');
       cardText.className = 'card-text';
       cardText.textContent = worker.bio;
       cardBody.appendChild(cardText);
+
+      // Category
       const catText = document.createElement('p');
       catText.className = 'card-text';
       catText.textContent = `Category: ${worker.category}`;
       cardBody.appendChild(catText);
+
+      // Profession
       if (worker.profession) {
         const profText = document.createElement('p');
         profText.className = 'card-text';
         profText.textContent = `Profession: ${worker.profession}`;
         cardBody.appendChild(profText);
       }
+
+      // Book Worker button
       const bookButton = document.createElement('button');
       bookButton.className = 'btn btn-primary';
       bookButton.textContent = 'Book Worker';
@@ -187,6 +195,7 @@ if (document.getElementById('workersList')) {
         handleBooking(worker);
       };
       cardBody.appendChild(bookButton);
+
       cardDiv.appendChild(cardBody);
       colDiv.appendChild(cardDiv);
       workersListDiv.appendChild(colDiv);
@@ -195,17 +204,21 @@ if (document.getElementById('workersList')) {
 }
 
 function handleBooking(worker) {
+  // Must be a retailer
   const retailerId = localStorage.getItem('loggedInRetailerId');
   if (!retailerId) {
     alert('You must log in as a retailer to book a worker!');
     return;
   }
+
+  // Prompt for booking details
   const wage = prompt('Enter wage (e.g., 500/day):');
   if (!wage) return;
   const date = prompt('Enter date (YYYY-MM-DD):');
   if (!date) return;
   const location = prompt('Enter location:');
   if (!location) return;
+
   const bookingId = Date.now();
   const newBooking = {
     bookingId,
@@ -216,18 +229,23 @@ function handleBooking(worker) {
     location,
     status: 'pending'
   };
+
+  // Update retailer's bookings
   const retailers = getRetailers();
-  const retailerIndex = retailers.findIndex(r => r.id === parseInt(retailerId));
-  if (retailerIndex !== -1) {
-    retailers[retailerIndex].bookings.push(newBooking);
+  const rIndex = retailers.findIndex(r => r.id === parseInt(retailerId));
+  if (rIndex !== -1) {
+    retailers[rIndex].bookings.push(newBooking);
     setRetailers(retailers);
   }
+
+  // Update worker's bookings
   const workers = getWorkers();
-  const workerIndex = workers.findIndex(w => w.id === worker.id);
-  if (workerIndex !== -1) {
-    workers[workerIndex].bookings.push(newBooking);
+  const wIndex = workers.findIndex(w => w.id === worker.id);
+  if (wIndex !== -1) {
+    workers[wIndex].bookings.push(newBooking);
     setWorkers(workers);
   }
+
   alert('Booking request sent to worker!');
 }
 
@@ -238,18 +256,24 @@ if (window.location.pathname.endsWith('worker-dashboard.html')) {
   const loggedInWorkerId = parseInt(localStorage.getItem('loggedInWorkerId'));
   if (!loggedInWorkerId) {
     alert('You must be logged in as a worker!');
-    window.location.href = 'worker-login.html';
+    window.location.href = 'index.html';
   }
+
   const workers = getWorkers();
   const currentWorker = workers.find(w => w.id === loggedInWorkerId);
   if (!currentWorker) {
     alert('Worker not found!');
     return;
   }
+
+  // Show worker's name
   document.getElementById('workerNameDisplay')?.innerText = currentWorker.name;
+
+  // Filter bookings
   const pending = currentWorker.bookings.filter(b => b.status === 'pending');
   const accepted = currentWorker.bookings.filter(b => b.status === 'accepted');
   const rejected = currentWorker.bookings.filter(b => b.status === 'rejected');
+
   renderBookings('pendingBookings', pending, currentWorker, 'pending');
   renderBookings('acceptedBookings', accepted, currentWorker, 'accepted');
   renderBookings('rejectedBookings', rejected, currentWorker, 'rejected');
@@ -258,10 +282,12 @@ if (window.location.pathname.endsWith('worker-dashboard.html')) {
 function renderBookings(containerId, bookingsArray, currentWorker, statusType) {
   const container = document.getElementById(containerId);
   if (!container) return;
+
   if (bookingsArray.length === 0) {
     container.innerHTML = `<p>No ${statusType} bookings.</p>`;
     return;
   }
+
   let html = '';
   bookingsArray.forEach(b => {
     html += `
@@ -273,9 +299,9 @@ function renderBookings(containerId, bookingsArray, currentWorker, statusType) {
         <p>Status: ${b.status}</p>
         ${
           b.status === 'pending'
-          ? `<button class="btn btn-success btn-sm" onclick="acceptBooking(${b.bookingId}, ${currentWorker.id})">Accept</button>
-             <button class="btn btn-danger btn-sm" onclick="rejectBooking(${b.bookingId}, ${currentWorker.id})">Reject</button>`
-          : ''
+            ? `<button class="btn btn-success btn-sm" onclick="acceptBooking(${b.bookingId}, ${currentWorker.id})">Accept</button>
+               <button class="btn btn-danger btn-sm" onclick="rejectBooking(${b.bookingId}, ${currentWorker.id})">Reject</button>`
+            : ''
         }
       </div>
     `;
@@ -289,24 +315,27 @@ function acceptBooking(bookingId, workerId) {
 function rejectBooking(bookingId, workerId) {
   updateBookingStatus(bookingId, workerId, 'rejected');
 }
+
 function updateBookingStatus(bookingId, workerId, newStatus) {
   const workers = getWorkers();
   const wIndex = workers.findIndex(w => w.id === workerId);
   if (wIndex === -1) return;
   let booking = workers[wIndex].bookings.find(b => b.bookingId === bookingId);
-  if (booking) {
-    booking.status = newStatus;
-  }
+  if (!booking) return;
+
+  booking.status = newStatus;
   setWorkers(workers);
+
   const retailers = getRetailers();
-  const retailerIndex = retailers.findIndex(r => r.id === booking.retailerId);
-  if (retailerIndex !== -1) {
-    let rBooking = retailers[retailerIndex].bookings.find(b => b.bookingId === bookingId);
+  const rIndex = retailers.findIndex(r => r.id === booking.retailerId);
+  if (rIndex !== -1) {
+    let rBooking = retailers[rIndex].bookings.find(b => b.bookingId === bookingId);
     if (rBooking) {
       rBooking.status = newStatus;
     }
     setRetailers(retailers);
   }
+
   alert(`Booking ${newStatus}!`);
   window.location.reload();
 }
@@ -318,21 +347,26 @@ if (window.location.pathname.endsWith('retailer-dashboard.html')) {
   const loggedInRetailerId = parseInt(localStorage.getItem('loggedInRetailerId'));
   if (!loggedInRetailerId) {
     alert('You must be logged in as a retailer!');
-    window.location.href = 'retailer-login.html';
+    window.location.href = 'index.html';
   }
+
   const retailers = getRetailers();
   const currentRetailer = retailers.find(r => r.id === loggedInRetailerId);
   if (!currentRetailer) {
     alert('Retailer not found!');
     return;
   }
+
   document.getElementById('retailerNameDisplay')?.innerText = currentRetailer.name;
+
   const container = document.getElementById('retailerBookings');
   if (!container) return;
+
   if (!currentRetailer.bookings || currentRetailer.bookings.length === 0) {
     container.innerHTML = '<p>No bookings yet.</p>';
     return;
   }
+
   let html = '';
   currentRetailer.bookings.forEach(b => {
     html += `

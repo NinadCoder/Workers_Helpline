@@ -31,30 +31,29 @@
       }
     </style>
   </head>
-  <body class="bg-dark text-light">
+  <body>
+    <!-- Nav bar for retailers or workers; if a worker visits this page, they won't be able to book. -->
     <header class="p-3 text-bg-dark">
-      <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-between">
-          <a href="retailer-dashboard.html" class="text-white text-decoration-none fs-4">
-            Retailer Dashboard
-          </a>
-          <ul class="nav">
-            <li class="nav-item">
-              <a href="retailer-dashboard.html" class="nav-link text-white">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="book.html" class="nav-link text-white">Book Worker</a>
-            </li>
-          </ul>
-        </div>
+      <div class="container d-flex flex-wrap align-items-center justify-content-between">
+        <a href="index.html" class="text-white text-decoration-none fs-4">Worker's Helpline</a>
+        <ul class="nav">
+          <li class="nav-item">
+            <a href="retailer-dashboard.html" class="nav-link text-white">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="book.html" class="nav-link text-white">Book Worker</a>
+          </li>
+        </ul>
       </div>
     </header>
+
     <main class="container">
       <h2 class="mb-4">Available Workers</h2>
       <div id="workersList" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
         <!-- Worker cards injected by app.js -->
       </div>
     </main>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script>
   </body>
