@@ -2,39 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Hire a Worker</title>
+    <title>Retailer Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      html, body {
-        margin: 0;
-        padding: 0;
-      }
-      header {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 999;
-      }
-      main {
-        margin-top: 80px;
-      }
-      .card {
-        background-color: #212529;
-        color: #fff;
-      }
-      .card-img-top {
-        height: 200px;
-        width: 100%;
-        object-fit: cover;
-      }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   </head>
   <body class="bg-dark text-light">
     <header class="p-3 text-bg-dark">
       <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-between">
+          <!-- Retailer Dashboard Nav -->
           <a href="retailer-dashboard.html" class="text-white text-decoration-none fs-4">
             Retailer Dashboard
           </a>
@@ -49,12 +26,13 @@
         </div>
       </div>
     </header>
-    <main class="container">
-      <h2 class="mb-4">Available Workers</h2>
-      <div id="workersList" class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-        <!-- Worker cards injected by app.js -->
-      </div>
+    <main class="container" style="margin-top:20px;">
+      <h2>Welcome, <span id="retailerNameDisplay"></span></h2>
+      <hr>
+      <h3>My Bookings</h3>
+      <div id="retailerBookings"></div>
     </main>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="app.js"></script>
   </body>
